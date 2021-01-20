@@ -1,0 +1,15 @@
+.forceStyle {
+    margin-top: 1px;
+}
+
+.allWidth {
+    width: 98%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.colors {
+    background: #585a5d;
+    color: #02d3f8;
+}

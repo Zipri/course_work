@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import FormError from './FormError';
-import firebase from './Firebase';
+import {fireAuth} from "../../firebase";
+import FormError from "../login/FormError";
 
 class Register extends Component {
   constructor(props) {
@@ -31,16 +31,14 @@ class Register extends Component {
   }
 
   handleSubmit(e) {
-    var registrationInfo = {
+    let registrationInfo = {
       displayName: this.state.displayName,
       email: this.state.email,
       password: this.state.passOne
     };
     e.preventDefault();
 
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(
+    fireAuth.createUserWithEmailAndPassword(
         registrationInfo.email,
         registrationInfo.password
       )
@@ -64,44 +62,26 @@ class Register extends Component {
             <div className="col-lg-8">
               <div className="card bg-light">
                 <div className="card-body">
-                  <h3 className="font-weight-light mb-3">Register</h3>
+                  <h3 className="font-weight-light mb-3">Регистрация</h3>
                   <div className="form-row">
                     {this.state.errorMessage !== null ? (
                       <FormError
                         theMessage={this.state.errorMessage}
                       />
                     ) : null}
-                    <section className="col-sm-12 form-group">
-                      <label
-                        className="form-control-label sr-only"
-                        htmlFor="displayName"
-                      >
-                        Display Name
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        id="displayName"
-                        placeholder="Display Name"
-                        name="displayName"
-                        required
-                        value={this.state.displayName}
-                        onChange={this.handleChange}
-                      />
-                    </section>
                   </div>
                   <section className="form-group">
                     <label
                       className="form-control-label sr-only"
                       htmlFor="email"
                     >
-                      Email
+                      E-mail
                     </label>
                     <input
                       className="form-control"
                       type="email"
                       id="email"
-                      placeholder="Email Address"
+                      placeholder="Почтовый@mail.ru адрес"
                       required
                       name="email"
                       value={this.state.email}
@@ -114,7 +94,7 @@ class Register extends Component {
                         className="form-control"
                         type="password"
                         name="passOne"
-                        placeholder="Password"
+                        placeholder="Пароль"
                         value={this.state.passOne}
                         onChange={this.handleChange}
                       />
@@ -125,7 +105,7 @@ class Register extends Component {
                         type="password"
                         required
                         name="passTwo"
-                        placeholder="Repeat Password"
+                        placeholder="Повторите пароль"
                         value={this.state.passTwo}
                         onChange={this.handleChange}
                       />
@@ -133,7 +113,7 @@ class Register extends Component {
                   </div>
                   <div className="form-group text-right mb-0">
                     <button className="btn btn-primary" type="submit">
-                      Register
+                      Зарегистрироваться
                     </button>
                   </div>
                 </div>

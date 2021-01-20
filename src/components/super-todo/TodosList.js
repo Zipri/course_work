@@ -1,85 +1,111 @@
-import React, { Component } from 'react';
-import firebase from './Firebase';
+import React, {Component} from 'react';
+import fireDB from "../../firebase";
+
 
 class TodosList extends Component {
-  constructor(props) {
-    super(props);
-    this.deleteTodo = this.deleteTodo.bind(this);
-  }
 
-  uncompleteTodo = (e, whichTodo, todoName) => {
+//   constructor(props) {
+//     super(props);
+//     this.deleteTodo = this.deleteTodo.bind(this);
+//   }
+//
+  uncompleteTodo = (e, whichTodo) => {
     e.preventDefault();
-    firebase.database().ref(`todos/${this.props.userID}/${whichTodo}`).set({
-      todoName: todoName,
-      completed: false
-    });
+    fireDB.firestore()
+      .collection('data')
+      .doc(`${whichTodo}`)
+      .update({
+        done: false
+      }).then(function () {
+      console.log("Document successfully update!");
+    })
+      .catch(function (error) {
+        console.error("Error writing document: ", error);
+      });
   };
 
-  completeTodo = (e, whichTodo, todoName) => {
+  completeTodo = (e, whichTodo) => {
     e.preventDefault();
-    firebase.database().ref(`todos/${this.props.userID}/${whichTodo}`).set({
-      todoName: todoName,
-      completed: true
-    });
+    fireDB.firestore()
+      .collection('data')
+      .doc(`${whichTodo}`)
+      .update({
+        done: true
+      }).then(function () {
+      console.log("Document successfully update!");
+    })
+      .catch(function (error) {
+        console.error("Error writing document: ", error);
+      });
   };
 
   deleteTodo = (e, whichTodo) => {
     e.preventDefault();
-    const ref = firebase
-      .database()
-      .ref(`todos/${this.props.userID}/${whichTodo}`);
-    ref.remove();
+    fireDB.firestore()
+      .collection('data')
+      .doc(`${whichTodo}`)
+      .delete()
+      .then(function () {
+        console.log("Document successfully deleted!");
+      }).catch(function (error) {
+      console.error("Error removing document: ", error);
+    });
   };
 
   render() {
-    const { todos } = this.props;
+    const {todos, date} = this.props;
     const myTodos = todos.map(item => {
-      return (
-        <div className="row" key={item.todoID}>
-
-          <div className="col-2 text-left">
-            {item.todoName}
-          </div>
-          <div className="col-2 text-left">                    
-            {item.completed ? (
-                      <span className="text-success">
-                        completed
-                      </span> 
-                    ) : (
-                      <span className="text-danger">
-                        in progress
-                      </span> 
-                    ) }
-          </div>
+      if (item.date === date) {
+        return (
           <div
-            className="col-8 text-right"
-            role="group"
-            aria-label="Todo Options"
+            className="row"
+            //key={item.todoID}
           >
-            <button
-              className="btn btn-sm btn-outline-dark"
-              title="Complete Todo"
-              onClick={e => this.completeTodo(e, item.todoID, item.todoName)}
+
+            <div className="col-6 text-left">
+              {item.label}
+            </div>
+            <div className="col-2 text-right">
+              {item.done ? (
+                <span className="text-success">
+                        done
+                      </span>
+              ) : (
+                <span className="text-danger">
+                        not now
+                      </span>
+              )}
+            </div>
+            <div
+              className="col-4 text-right"
+              role="group"
+              aria-label="Todo Options"
             >
-              <i class="fas fa-check"></i> mark as complete
-            </button>
-            <button
-              className="btn btn-sm btn-outline-dark"
-              title="Uncomplete Todo"
-              onClick={e => this.uncompleteTodo(e, item.todoID, item.todoName)}
-            >
-              <i class="fas fa-times"></i> mark as uncomplete
-            </button>
-            <button
-              className="btn btn-sm btn-outline-dark"
-              title="Delete Todo"
-              onClick={e => this.deleteTodo(e, item.todoID)}
-            >
-              <i class="far fa-trash-alt"></i> delete
-            </button>
+              <button
+                className="btn btn-sm btn-outline-dark"
+                title="Complete Todo"
+                onClick={e => this.completeTodo(e, item.id)}
+              >
+                <i class="fas fa-check"></i> complete
+              </button>
+              <button
+                className="btn btn-sm btn-outline-dark"
+                title="Uncomplete Todo"
+                onClick={e => this.uncompleteTodo(e, item.id)}
+              >
+                <i class="fas fa-times"></i> uncomplete
+              </button>
+              <button
+                className="btn btn-sm btn-outline-dark"
+                title="Delete Todo"
+                onClick={e => this.deleteTodo(e, item.id)}
+              >
+                <i class="far fa-trash-alt"></i> del
+              </button>
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
     });
 
     return <div>{myTodos}</div>;

@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import * as calendar from './calendar'
 
 import './index_calendar.css'
+import {MOCK_DATA} from "../../MOCK_DATA";
 
 export default class Calendar extends React.Component {
   static defaultProps = {
@@ -24,11 +25,9 @@ export default class Calendar extends React.Component {
   get year() {
     return this.state.date.getFullYear();
   }
-
   get month() {
     return this.state.date.getMonth();
   }
-
   get day() {
     return this.state.date.getDate();
   }
@@ -38,13 +37,11 @@ export default class Calendar extends React.Component {
 
     this.setState({date});
   };
-
   handleNextMonthButtonClick = () => {
     const date = new Date(this.year, this.month + 1);
 
     this.setState({date});
   };
-
   handleSelectChange = () => {
     const year = this.yearSelect.value;
     const month = this.monthSelect.value;
@@ -53,12 +50,34 @@ export default class Calendar extends React.Component {
 
     this.setState({date});
   };
-
   handleDayClick = date => {
     this.setState({selectedDate: date});
 
     this.props.onChange(date);
   };
+
+  showLabel = (date) => {
+    return (
+      <div>
+        <h1 className="onlyDay">
+          {date.getDate()}
+        </h1>
+        <ul>
+          {this.props.todoData.map(item => {
+            let calDate = date.getDate()+'/'+date.getMonth()+1+'/'+date.getFullYear();
+            if (date.getDate() < 10) {calDate = '0'+calDate}
+            console.log(calDate)
+            if (item.date === calDate)
+            return (
+              <li className="onlyLabel">
+                {item.label}
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    )
+  }
 
   render() {
     const {years, monthNames, weekDayNames} = this.props;
@@ -69,8 +88,12 @@ export default class Calendar extends React.Component {
     return (
       <div className="calendar">
         <header>
-          <button onClick={this.handlePrevMonthButtonClick}>{'<'}</button>
+          <button
+            onClick={this.handlePrevMonthButtonClick}
+            className="btn btn-outline-warning"
+          >{'<'}</button>
           <select
+            className="colorsS"
             ref={element => this.monthSelect = element}
             value={this.month}
             onChange={this.handleSelectChange}
@@ -80,6 +103,7 @@ export default class Calendar extends React.Component {
             )}
           </select>
           <select
+            className="colorsS"
             ref={element => this.yearSelect = element}
             value={this.year}
             onChange={this.handleSelectChange}
@@ -88,13 +112,18 @@ export default class Calendar extends React.Component {
               <option key={year} value={year}>{year} </option>
             )}
           </select>
-          <button onClick={this.handleNextMonthButtonClick}>{'>'}</button>
+          <button
+            onClick={this.handleNextMonthButtonClick}
+            className="btn btn-outline-warning"
+          >{'>'}</button>
         </header>
         <table>
           <thead>
           <tr>
             {weekDayNames.map(name =>
-              <th key={name}>{name} </th>
+              <th key={name} className="weekColor" >
+                {name}
+              </th>
             )}
           </tr>
           </thead>
@@ -111,10 +140,7 @@ export default class Calendar extends React.Component {
                   )}
                   onClick={() => this.handleDayClick(date)}
                 >
-                  {date.getDate()}
-                  {this.props.todoData.map(item => {
-                    return item.label
-                  })}
+                  {this.showLabel(date)}
                 </td>
                 :
                 <td key={index}/>

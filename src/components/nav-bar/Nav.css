@@ -1,0 +1,52 @@
+.fontC {
+    color: #02d3f8;
+}
+
+.selfColor {
+    background: #444444;
+}
+
+.header {
+    margin-top: .4rem;
+    margin-bottom: .6rem;
+    padding-left: 10px;
+    height: 30px;
+}
+
+.header ul li {
+    list-style: none;
+    margin: 0;
+    padding: .5rem 1rem;
+    border-radius: 3px;
+}
+
+.header a {
+    text-decoration: none;
+    color: white;
+}
+
+.header a:hover {
+    text-decoration: none;
+    color: #f3a81d;
+}
+
+.header h3 a {
+    color: #f3a81d;
+}
+
+.header h3 a:hover {
+    color: #feffff;
+}
+
+.special a {
+    color: #ec560e;
+}
+
+.special a:hover {
+    color: red;
+}
+
+.left {
+    position: absolute;
+    right: 2%;
+}

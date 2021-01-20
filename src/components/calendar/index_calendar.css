@@ -1,3 +1,7 @@
+.calendar {
+    margin-top: 40px;
+}
+
 .calendar header {
     display: flex;
     justify-content: center;
@@ -14,7 +18,7 @@
     border-collapse: separate;
     border-spacing: 0;
     margin: auto;
-    color: #86929a;
+    color: #ffffff;
 }
 
 .calendar th {
@@ -28,6 +32,7 @@
     vertical-align: middle;
     text-align: center;
     border: 2px solid transparent;
+    width: 500px;
 }
 
 .calendar .day:hover {
@@ -49,5 +54,23 @@
 }
 
 .calendar .day.today.selected {
-    border: 2px solid lightgray;
+    border: 2px solid #ff0000;
+}
+
+.onlyDay {
+    font-size: 15pt;
+    text-align: center;
+}
+
+.onlyLabel {
+    text-align: left;
+}
+
+.weekColor {
+    color: #02d3f8;
+}
+
+.colorsS {
+    background: #5c5f5f;
+    color: #02d3f8;
 }

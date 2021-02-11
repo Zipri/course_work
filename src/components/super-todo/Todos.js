@@ -20,7 +20,6 @@ class Todos extends Component {
 
     this.setState({[itemName]: itemValue});
   }
-
   handleSubmit(e) {
     e.preventDefault();
     this.props.addTodo(this.state.todoName);
@@ -44,7 +43,7 @@ class Todos extends Component {
                   type="text"
                   className="form-control"
                   name="todoName"
-                  placeholder="Add new item"
+                  placeholder={`Добавить новое занятие на ${this.props.date}`}
                   aria-describedby="buttonAdd"
                   value={this.state.todoName}
                   onChange={this.handleChange}
@@ -55,7 +54,7 @@ class Todos extends Component {
                     className="btn btn-sm btn-info"
                     id="buttonAdd"
                   >
-                    add
+                    добавить
                   </button>
                 </div>
               </div>

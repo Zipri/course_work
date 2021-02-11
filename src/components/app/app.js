@@ -13,15 +13,35 @@ import Register from "../registration/Register";
 import './app.css'
 
 export default class App extends Component {
+  thisDay = () => {
+    return ((new Date()).getDate())
+  }
+  thisMonth = () => {
+    return ((new Date()).getMonth()+1)
+  }
+  thisYear = () => {
+    return ((new Date()).getFullYear())
+  }
   state = {
     todoData: [],
     user: null,
     displayName: null,
     userID: null,
-    date: ((new Date()).getDate()+'/'+(new Date()).getMonth()+1+'/'+(new Date()).getFullYear())
+    date: (this.thisDay()+'/'+'0'+this.thisMonth()+'/'+this.thisYear())
   };
 
   componentDidMount() {
+    this.updateList();
+  }
+
+  // componentDidUpdate(prevState) {
+  //   if (this.state.todoData !== prevState.todoData) {
+  //     console.log(this.state);
+  //     console.log(prevState);
+  //   }
+  // }
+
+  updateList() {
     fireAuth.onAuthStateChanged(FBUser => {
       if (FBUser) {
         this.setState({
@@ -128,7 +148,7 @@ export default class App extends Component {
           </h1>
           <input
             className="colors"
-            placeholder={this.state.date}
+            // value={this.thisYear()+'-'+'0'+this.thisMonth()+'-'+this.thisDay()}
             type="date"
             onChange={event => this.handleSubmit(event)}
           />
@@ -139,6 +159,7 @@ export default class App extends Component {
           addTodo={this.addTodo}
           date={this.state.date}
         />
+        {console.log(this.state.date)}
       </div>
     )
   }
@@ -168,7 +189,7 @@ export default class App extends Component {
         <Router>
           {!this.state.user && (
             <div className="text-center mt-5 font">
-              <p>Пожалуйста зарегистрируйтесь или войдите в учётную запись</p>
+              <p>Пожалуйста, зарегистрируйтесь или войдите в учётную запись</p>
             </div>)}
           <Route
             path = "/login"

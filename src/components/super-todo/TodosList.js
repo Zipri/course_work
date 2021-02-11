@@ -4,11 +4,7 @@ import fireDB from "../../firebase";
 
 class TodosList extends Component {
 
-//   constructor(props) {
-//     super(props);
-//     this.deleteTodo = this.deleteTodo.bind(this);
-//   }
-//
+
   uncompleteTodo = (e, whichTodo) => {
     e.preventDefault();
     fireDB.firestore()
@@ -23,7 +19,6 @@ class TodosList extends Component {
         console.error("Error writing document: ", error);
       });
   };
-
   completeTodo = (e, whichTodo) => {
     e.preventDefault();
     fireDB.firestore()
@@ -38,7 +33,6 @@ class TodosList extends Component {
         console.error("Error writing document: ", error);
       });
   };
-
   deleteTodo = (e, whichTodo) => {
     e.preventDefault();
     fireDB.firestore()
@@ -59,7 +53,6 @@ class TodosList extends Component {
         return (
           <div
             className="row"
-            //key={item.todoID}
           >
 
             <div className="col-6 text-left">
@@ -68,11 +61,11 @@ class TodosList extends Component {
             <div className="col-2 text-right">
               {item.done ? (
                 <span className="text-success">
-                        done
+                        завершено
                       </span>
               ) : (
                 <span className="text-danger">
-                        not now
+                        в процессе
                       </span>
               )}
             </div>
@@ -86,21 +79,21 @@ class TodosList extends Component {
                 title="Complete Todo"
                 onClick={e => this.completeTodo(e, item.id)}
               >
-                <i class="fas fa-check"></i> complete
+                <i class="fas fa-check"></i> завершить
               </button>
               <button
                 className="btn btn-sm btn-outline-dark"
                 title="Uncomplete Todo"
                 onClick={e => this.uncompleteTodo(e, item.id)}
               >
-                <i class="fas fa-times"></i> uncomplete
+                <i class="fas fa-times"></i> в процессе
               </button>
               <button
                 className="btn btn-sm btn-outline-dark"
                 title="Delete Todo"
                 onClick={e => this.deleteTodo(e, item.id)}
               >
-                <i class="far fa-trash-alt"></i> del
+                <i class="far fa-trash-alt"></i>
               </button>
             </div>
           </div>

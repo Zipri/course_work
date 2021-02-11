@@ -64,15 +64,26 @@ export default class Calendar extends React.Component {
         </h1>
         <ul>
           {this.props.todoData.map(item => {
-            let calDate = date.getDate()+'/'+date.getMonth()+1+'/'+date.getFullYear();
+            let month = date.getMonth();
+            month++;
+            if (month < 10) {month = '0'+month}
+            let calDate = date.getDate()+'/'+month+'/'+date.getFullYear();
             if (date.getDate() < 10) {calDate = '0'+calDate}
             console.log(calDate)
-            if (item.date === calDate)
-            return (
-              <li className="onlyLabel">
-                {item.label}
-              </li>
-            )
+            if (item.date === calDate && item.done) {
+              return (
+                <li className="onlyLabel green">
+                  {item.label}
+                </li>
+              )
+            }
+            if (item.date === calDate && !item.done) {
+              return (
+                <li className="onlyLabel">
+                  {item.label}
+                </li>
+              )
+            }
           })}
         </ul>
       </div>
